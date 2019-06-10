@@ -16,7 +16,7 @@ docker_network="--network takima"
 docker_logs="target/logs/log-cdb.txt"
 
 # build container for the spring boot project with tag takima/cdb
-docker build -t takima/cdb .
+docker build -t ${docker_image} .
 
 # run docker 
 docker run ${docker_network} -p ${docker_local_http_port}:${docker_container_http_port} ${docker_image} \
