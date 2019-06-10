@@ -36,8 +36,9 @@ public interface ComputerService {
 	/**
 	 * Update an existing computer.
 	 * @param computer The computer to update.
+	 * @throws EntityNotFoundException when Dao returns no result.
 	 */
-	void updateComputer(Computer computer);
+	void updateComputer(Computer computer) throws EntityNotFoundException;
 	
 	/**
 	 * Delete an existing computer.

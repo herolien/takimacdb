@@ -68,14 +68,34 @@ public class ComputerServiceTest {
 	}
 
 	@Test
-	public void testUpdate() {
-		final Computer computer = MockUtils.getValidComputer(null);
+	public void testUpdate() throws Exception {
+		final Computer computer = MockUtils.getValidComputer(1234L);
 		
-		Mockito.doNothing().when(dao).update(Mockito.any(Computer.class));
+		Mockito.when(dao.update(Mockito.<Long>any(), Mockito.<Class<Computer>>any(), Mockito.any(Computer.class))).thenReturn(true);
 		
 		service.updateComputer(computer);
 
-		Mockito.verify(dao, Mockito.times(1)).update(Mockito.any(Computer.class));
+		Mockito.verify(dao, Mockito.times(1)).update(Mockito.<Long>any(), Mockito.<Class<Computer>>any(), Mockito.any(Computer.class));
+		
+	}
+
+	@Test
+	public void testUpdateFail() throws Exception {
+		final Computer computer = MockUtils.getValidComputer(1234L);
+		
+		Mockito.when(dao.update(Mockito.<Long>any(), Mockito.<Class<Computer>>any(), Mockito.any(Computer.class))).thenReturn(false);
+
+		try {
+			service.updateComputer(computer);
+			fail();
+		
+		} catch (EntityNotFoundException e1) {
+			assertEquals("bad message", Errors.ENTITY_NOT_FOUND.getMessage(), e1.getMessage());
+			
+		} catch (Exception e) {
+			fail("Unexpected exception: "+e.getMessage());
+		}
+		Mockito.verify(dao, Mockito.times(1)).update(Mockito.<Long>any(), Mockito.<Class<Computer>>any(), Mockito.any(Computer.class));
 		
 	}
 

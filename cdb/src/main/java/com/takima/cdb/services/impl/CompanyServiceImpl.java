@@ -51,8 +51,10 @@ public class CompanyServiceImpl implements CompanyService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void updateCompany(Company company) {
-		companyDao.update(company);
+	public void updateCompany(Company company) throws EntityNotFoundException {
+		Optional.ofNullable(companyDao.update(company.getId(), Company.class, company))
+				.filter(isUpdated -> isUpdated)
+				.orElseThrow(() -> new EntityNotFoundException(Errors.ENTITY_NOT_FOUND));
 	}
 
 	/**

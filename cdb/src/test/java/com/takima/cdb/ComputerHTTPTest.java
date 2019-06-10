@@ -190,8 +190,8 @@ public class ComputerHTTPTest {
     @Test
     public void updateOk() {
     	Computer computerMock = MockUtils.getValidComputer(1234L);
-    	
-    	Mockito.doNothing().when(computer).update(Mockito.any(Computer.class));
+
+    	Mockito.when(computer.update(Mockito.<Long>any(), Mockito.<Class<Computer>>any(), Mockito.any(Computer.class))).thenReturn(true);
     	
     	HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -199,15 +199,15 @@ public class ComputerHTTPTest {
     	HttpEntity<Map<String, String>> response = this.restTemplate.exchange(Paths.UPDATE_COMPUTER, HttpMethod.POST, request, new ParameterizedTypeReference<Map<String, String>>() {});
     	
     	assertEquals("Bad http status", HttpStatus.NO_CONTENT.value(), ((ResponseEntity<Map<String, String>>) response).getStatusCodeValue());
-		Mockito.verify(computer, Mockito.times(1)).update(Mockito.any(Computer.class));
+		Mockito.verify(computer, Mockito.times(1)).update(Mockito.<Long>any(), Mockito.<Class<Computer>>any(), Mockito.any(Computer.class));
 		
     }
 
     @Test
     public void updateError() {
     	Computer computerMock = MockUtils.getInvalidComputer(1234L);
-    	
-    	Mockito.doNothing().when(computer).update(Mockito.any(Computer.class));
+
+    	Mockito.when(computer.update(Mockito.<Long>any(), Mockito.<Class<Computer>>any(), Mockito.any(Computer.class))).thenReturn(true);
     	
     	HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -217,7 +217,7 @@ public class ComputerHTTPTest {
     	assertEquals("Bad http status", Errors.INVALID_ENTITY.getStatus(), ((ResponseEntity<Map<String, String>>) response).getStatusCodeValue());
 		assertEquals("Bad code", Errors.INVALID_ENTITY.getCode(), response.getBody().get(CODE_ERR_KEY));
 		assertEquals("Bad message", Errors.INVALID_ENTITY.getMessage(), response.getBody().get(MESSAGE_ERR_KEY));
-		Mockito.verify(computer, Mockito.times(0)).update(Mockito.any(Computer.class));
+		Mockito.verify(computer, Mockito.times(0)).update(Mockito.<Long>any(), Mockito.<Class<Computer>>any(), Mockito.any(Computer.class));
 		
     }
 
@@ -225,7 +225,7 @@ public class ComputerHTTPTest {
     public void updateErrorName() {
     	Computer computerMock = MockUtils.getInvalidComputerWithValidDates(1234L);
     	
-    	Mockito.doNothing().when(computer).update(Mockito.any(Computer.class));
+    	Mockito.when(computer.update(Mockito.<Long>any(), Mockito.<Class<Computer>>any(), Mockito.any(Computer.class))).thenReturn(true);
     	
     	HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -235,7 +235,7 @@ public class ComputerHTTPTest {
     	assertEquals("Bad http status", Errors.INVALID_ENTITY.getStatus(), ((ResponseEntity<Map<String, String>>) response).getStatusCodeValue());
 		assertEquals("Bad code", Errors.INVALID_ENTITY.getCode(), response.getBody().get(CODE_ERR_KEY));
 		assertEquals("Bad message", Errors.INVALID_ENTITY.getMessage(), response.getBody().get(MESSAGE_ERR_KEY));
-		Mockito.verify(computer, Mockito.times(0)).update(Mockito.any(Computer.class));
+		Mockito.verify(computer, Mockito.times(0)).update(Mockito.<Long>any(), Mockito.<Class<Computer>>any(), Mockito.any(Computer.class));
 		
     }
     

@@ -33,10 +33,12 @@ public interface Dao<T> {
 	void add(T object);
 	
 	/**
-	 * Update an entity.
+	 * Update an existing entity.
+	 * @param id Id of the entity.
+	 * @param type Type of the entity.
 	 * @param object The entity to update.
 	 */
-	void update(T object);
+	Boolean update(Long id, Class<T> type, T object);
 	
 	/**
 	 * Delete an entity by its id.

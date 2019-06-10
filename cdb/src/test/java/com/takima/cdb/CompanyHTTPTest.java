@@ -176,7 +176,7 @@ public class CompanyHTTPTest {
     public void updateOk() {
     	Company companyMock = MockUtils.getValidCompany(1234L);
     	
-    	Mockito.doNothing().when(company).update(Mockito.any(Company.class));
+    	Mockito.when(company.update(Mockito.<Long>any(), Mockito.<Class<Company>>any(), Mockito.any(Company.class))).thenReturn(true);
     	
     	HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -184,15 +184,15 @@ public class CompanyHTTPTest {
     	HttpEntity<Map<String, String>> response = this.restTemplate.exchange(Paths.UPDATE_COMPANY, HttpMethod.POST, request, new ParameterizedTypeReference<Map<String, String>>() {});
     	
     	assertEquals("Bad http status", HttpStatus.NO_CONTENT.value(), ((ResponseEntity<Map<String, String>>) response).getStatusCodeValue());
-		Mockito.verify(company, Mockito.times(1)).update(Mockito.any(Company.class));
+		Mockito.verify(company, Mockito.times(1)).update(Mockito.<Long>any(), Mockito.<Class<Company>>any(), Mockito.any(Company.class));
 		
     }
 
     @Test
     public void updateError() {
     	Company companyMock = MockUtils.getInvalidCompany();
-    	
-    	Mockito.doNothing().when(company).update(Mockito.any(Company.class));
+
+    	Mockito.when(company.update(Mockito.<Long>any(), Mockito.<Class<Company>>any(), Mockito.any(Company.class))).thenReturn(true);
     	
     	HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -202,7 +202,7 @@ public class CompanyHTTPTest {
     	assertEquals("Bad http status", Errors.INVALID_ENTITY.getStatus(), ((ResponseEntity<Map<String, String>>) response).getStatusCodeValue());
 		assertEquals("Bad code", Errors.INVALID_ENTITY.getCode(), response.getBody().get(CODE_ERR_KEY));
 		assertEquals("Bad message", Errors.INVALID_ENTITY.getMessage(), response.getBody().get(MESSAGE_ERR_KEY));
-		Mockito.verify(company, Mockito.times(0)).update(Mockito.any(Company.class));
+		Mockito.verify(company, Mockito.times(0)).update(Mockito.<Long>any(), Mockito.<Class<Company>>any(), Mockito.any(Company.class));
 		
     }
     

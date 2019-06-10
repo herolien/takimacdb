@@ -38,8 +38,9 @@ public interface CompanyService {
 	/**
 	 * Update an existing Company.
 	 * @param company The Company to update.
+	 * @throws EntityNotFoundException when Dao returns no result.
 	 */
-	void updateCompany(Company company);
+	void updateCompany(Company company) throws EntityNotFoundException;
 	
 	/**
 	 * Delete an existing Company.

@@ -51,8 +51,10 @@ public class ComputerServiceImpl implements ComputerService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void updateComputer(Computer computer) {
-		computerDao.update(computer);
+	public void updateComputer(Computer computer) throws EntityNotFoundException {
+		Optional.ofNullable(computerDao.update(computer.getId(), Computer.class, computer))
+				.filter(isUpdated -> isUpdated)
+				.orElseThrow(() -> new EntityNotFoundException(Errors.ENTITY_NOT_FOUND));
 	}
 
 	/**

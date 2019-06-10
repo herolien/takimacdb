@@ -62,10 +62,16 @@ public class ComputerDaoTest {
 	
 	@Test
 	public void daoUpdate() throws Exception {
-		final Computer computerMock = MockUtils.getValidComputer(3L);
-		computer.update(computerMock);
+		final Computer computerMock = MockUtils.getValidComputer(4L);
+		assertTrue("Bad response", computer.update(computerMock.getId(), Computer.class, computerMock));
 	}
-
+	
+	@Test
+	public void daoUpdateUnknownId() throws Exception {
+		final Computer computerMock = MockUtils.getValidComputer(12345678L);
+		assertFalse("Bad response", computer.update(computerMock.getId(), Computer.class, computerMock));
+	}
+	
 	@Test
 	public void daoDelete() throws Exception {
 		computer.delete(3L, Computer.class);

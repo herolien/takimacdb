@@ -62,8 +62,14 @@ public class CompanyDaoTest {
 	
 	@Test
 	public void daoUpdate() throws Exception {
-		final Company companyMock = MockUtils.getValidCompany(3L);
-		company.update(companyMock);
+		final Company companyMock = MockUtils.getValidCompany(1L);
+		assertTrue("Bad response", company.update(companyMock.getId(), Company.class, companyMock));
+	}
+	
+	@Test
+	public void daoUpdateUnknownId() throws Exception {
+		final Company companyMock = MockUtils.getValidCompany(12345678L);
+		assertFalse("Bad response", company.update(companyMock.getId(), Company.class, companyMock));
 	}
 
 	@Test

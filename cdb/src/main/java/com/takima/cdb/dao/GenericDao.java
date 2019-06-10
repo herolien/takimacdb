@@ -35,8 +35,10 @@ public class GenericDao<T> implements Dao<T>{
 	 * {@inheritDoc} 
 	 */
 	@Override
-	public void update(T object) {
-		entityManager.merge(object);
+	public Boolean update(Long id, Class<T> type, T object) {
+		return Optional.ofNullable(entityManager.find(type, id))
+				   	   .map(oldEntity -> this.merge(object))
+				       .orElse(false);
 	}
 
 	/** 
@@ -45,7 +47,7 @@ public class GenericDao<T> implements Dao<T>{
 	@Override
 	public boolean delete(Long id, Class<T> type) {
 		return Optional.ofNullable(entityManager.find(type, id))
-					   .map(this::delete)
+					   .map(this::remove)
 					   .orElse(false);
 	}
 
@@ -77,15 +79,24 @@ public class GenericDao<T> implements Dao<T>{
 							.getSingleResult();
 							
 	}
-	
+
 	/**
 	 * Execute the removal of the current entity and return a boolean.
 	 * @param entity An entity.
 	 * @return true if succeeded
 	 */
-	private Boolean delete(T entity){
+	private Boolean remove(T entity){
 		entityManager.remove(entity);
 		return true;
 	}
-	
+
+	/**
+	 * Execute the update of the current entity and return a boolean.
+	 * @param entity An entity.
+	 * @return true if succeeded
+	 */
+	private Boolean merge(T entity){
+		entityManager.merge(entity);
+		return true;
+	}
 }

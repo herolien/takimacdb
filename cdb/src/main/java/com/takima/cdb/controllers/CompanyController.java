@@ -3,6 +3,7 @@ package com.takima.cdb.controllers;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
+import static java.util.function.Predicate.*;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -158,17 +159,19 @@ public class CompanyController extends GenericController {
 		
 		try {
 			company = Optional.ofNullable(company)
+							   .filter(not(Company::hasNullId))
 							   .filter(Company::hasName)
 							   .orElseThrow(() -> new InvalidArgumentException(Errors.INVALID_ENTITY));
 			
 			companyService.updateCompany(company);
 			
-			// HTTP 204: OK (a new id has been generated).
+			// HTTP 204: OK.
 			response = Response.status(HttpStatus.NO_CONTENT.value())
 							   .build();
 			
-		// HTTP 400: bad request (eg. bad format, empty value...)
-		} catch(InvalidArgumentException e1) {
+		// HTTP 400 (InvalidArgumentException) : bad request (eg. bad format, empty value...)
+		// HTTP 404 (EntityNotFoundException)  : no results found in database
+		} catch(InvalidArgumentException | EntityNotFoundException e1) {
 			logError("updateCompany", e1);
 			response = e1.toResponse();
 		}

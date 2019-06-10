@@ -68,14 +68,34 @@ public class CompanyServiceTest {
 	}
 
 	@Test
-	public void testUpdate() {
-		final Company company = MockUtils.getValidCompany(null);
+	public void testUpdate() throws Exception {
+		final Company company = MockUtils.getValidCompany(1234L);
 		
-		Mockito.doNothing().when(dao).update(Mockito.any(Company.class));
+		Mockito.when(dao.update(Mockito.<Long>any(), Mockito.<Class<Company>>any(), Mockito.any(Company.class))).thenReturn(true);
 		
 		service.updateCompany(company);
 
-		Mockito.verify(dao, Mockito.times(1)).update(Mockito.any(Company.class));
+		Mockito.verify(dao, Mockito.times(1)).update(Mockito.<Long>any(), Mockito.<Class<Company>>any(), Mockito.any(Company.class));
+		
+	}
+
+	@Test
+	public void testUpdateFail() throws Exception {
+		final Company company = MockUtils.getValidCompany(1234L);
+		
+		Mockito.when(dao.update(Mockito.<Long>any(), Mockito.<Class<Company>>any(), Mockito.any(Company.class))).thenReturn(false);
+		try {
+			service.updateCompany(company);
+			fail();
+		
+		} catch (EntityNotFoundException e1) {
+			assertEquals("bad message", Errors.ENTITY_NOT_FOUND.getMessage(), e1.getMessage());
+			
+		} catch (Exception e) {
+			fail("Unexpected exception: "+e.getMessage());
+		}
+
+		Mockito.verify(dao, Mockito.times(1)).update(Mockito.<Long>any(), Mockito.<Class<Company>>any(), Mockito.any(Company.class));
 		
 	}
 
