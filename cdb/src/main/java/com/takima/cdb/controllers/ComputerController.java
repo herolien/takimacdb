@@ -123,6 +123,7 @@ public class ComputerController extends GenericController {
 		try {
 			computer = Optional.ofNullable(computer)
 							   .filter(Computer::hasNullId)		// id must remain null in insertion
+							   .filter(Computer::hasName)		// check if the name is correctly set
 							   .filter(Computer::hasValidDates)	// check if the discontinued date > introduced date
 							   .orElseThrow(() -> new InvalidArgumentException(Errors.INVALID_ENTITY));
 			
@@ -156,6 +157,7 @@ public class ComputerController extends GenericController {
 		
 		try {
 			computer = Optional.ofNullable(computer)
+					   		   .filter(Computer::hasName)		// check if the name is correctly set
 							   .filter(Computer::hasValidDates)	// check if the discontinued date > introduced date
 							   .orElseThrow(() -> new InvalidArgumentException(Errors.INVALID_ENTITY));
 			

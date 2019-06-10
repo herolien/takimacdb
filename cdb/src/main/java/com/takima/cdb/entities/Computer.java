@@ -138,6 +138,17 @@ public class Computer implements Serializable {
 	public boolean hasNullId() {
 		return Optional.ofNullable(id).isEmpty();
 	}
+
+	/**
+	 * Check if the computer has a valid name.
+	 * @param computer The computer.
+	 * @return true if a name is set, false in other cases.
+	 */
+	public boolean hasName() {
+		return !Optional.ofNullable(name)
+					   .filter(not(String::isBlank))
+					   .isEmpty();
+	}
 	
 	/**
 	 * Check if the discontinued date is greater than the introduced one.

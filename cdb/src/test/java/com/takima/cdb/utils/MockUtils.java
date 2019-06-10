@@ -76,26 +76,33 @@ public class MockUtils {
 	}
 
 	/**
-	 * Generate an invalid Computer instance.
-	 * @param id .
-	 * @return computer.
-	 */
-	public static Computer getInvalidComputer(Long id) {
-		return getInvalidComputer(id, "SUPER COMPUTER");
-	}
-	
-	/**
-	 * Generate an invalid Computer instance.
+	 * Generate an invalid Computer instance, with invalid dates.
 	 * @param id .
 	 * @param name .
 	 * @return computer.
 	 */
-	public static Computer getInvalidComputer(Long id, String name) {
+	public static Computer getInvalidComputer(Long id) {
 		Computer computer = new Computer();
 		computer.setId(id);
-		computer.setName(name);
+		computer.setName("SUPER COMPUTER");
 		computer.setIntroducedDate(LocalDate.of(2018, 12, 10));
 		computer.setDiscontinuedDate(LocalDate.of(2018, 12, 2));
+		computer.setManufacturer(1L);
+		return computer;
+	}
+	
+	/**
+	 * Generate an invalid Computer instance, with valid dates and invalid name.
+	 * @param id .
+	 * @param name .
+	 * @return computer.
+	 */
+	public static Computer getInvalidComputerWithValidDates(Long id) {
+		Computer computer = new Computer();
+		computer.setId(id);
+		computer.setName("             ");
+		computer.setIntroducedDate(LocalDate.of(2018, 12, 10));
+		computer.setDiscontinuedDate(LocalDate.of(2018, 12, 20));
 		computer.setManufacturer(1L);
 		return computer;
 	}

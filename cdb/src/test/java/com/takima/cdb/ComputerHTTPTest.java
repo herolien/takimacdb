@@ -171,6 +171,21 @@ public class ComputerHTTPTest {
 		assertEquals("Bad message", Errors.INVALID_ENTITY.getMessage(), response.getBody().get(MESSAGE_ERR_KEY));
 		
     }
+    
+    @Test
+    public void addErrorName() {
+    	Computer computerMock = MockUtils.getInvalidComputerWithValidDates(null);
+    	
+    	HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+    	HttpEntity<Computer> request = new HttpEntity<Computer>(computerMock, headers);
+    	HttpEntity<Map<String, String>> response = this.restTemplate.exchange(Paths.ADD_COMPUTER, HttpMethod.PUT, request, new ParameterizedTypeReference<Map<String, String>>() {});
+    	
+    	assertEquals("Bad http status", Errors.INVALID_ENTITY.getStatus(), ((ResponseEntity<Map<String, String>>) response).getStatusCodeValue());
+		assertEquals("Bad code", Errors.INVALID_ENTITY.getCode(), response.getBody().get(CODE_ERR_KEY));
+		assertEquals("Bad message", Errors.INVALID_ENTITY.getMessage(), response.getBody().get(MESSAGE_ERR_KEY));
+		
+    }
 
     @Test
     public void updateOk() {
@@ -190,7 +205,25 @@ public class ComputerHTTPTest {
 
     @Test
     public void updateError() {
-    	Computer computerMock = MockUtils.getInvalidComputer(1234L, "                    ");
+    	Computer computerMock = MockUtils.getInvalidComputer(1234L);
+    	
+    	Mockito.doNothing().when(computer).update(Mockito.any(Computer.class));
+    	
+    	HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+    	HttpEntity<Computer> request = new HttpEntity<Computer>(computerMock, headers);
+    	HttpEntity<Map<String, String>> response = this.restTemplate.exchange(Paths.UPDATE_COMPUTER, HttpMethod.POST, request, new ParameterizedTypeReference<Map<String, String>>() {});
+    	
+    	assertEquals("Bad http status", Errors.INVALID_ENTITY.getStatus(), ((ResponseEntity<Map<String, String>>) response).getStatusCodeValue());
+		assertEquals("Bad code", Errors.INVALID_ENTITY.getCode(), response.getBody().get(CODE_ERR_KEY));
+		assertEquals("Bad message", Errors.INVALID_ENTITY.getMessage(), response.getBody().get(MESSAGE_ERR_KEY));
+		Mockito.verify(computer, Mockito.times(0)).update(Mockito.any(Computer.class));
+		
+    }
+
+    @Test
+    public void updateErrorName() {
+    	Computer computerMock = MockUtils.getInvalidComputerWithValidDates(1234L);
     	
     	Mockito.doNothing().when(computer).update(Mockito.any(Computer.class));
     	
