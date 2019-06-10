@@ -111,7 +111,7 @@ public class CompanyController extends GenericController {
 
 	/**
 	 * Add a company.
-	 * @param request The company to add.
+	 * @param company The company to add.
 	 * @return 200 OK - the response includes the new id of the company.
 	 */
 	@PUT
@@ -145,7 +145,7 @@ public class CompanyController extends GenericController {
 
 	/**
 	 * Update a company.
-	 * @param request The company to update.
+	 * @param company The company to update.
 	 * @return 204 No content.
 	 */
 	@POST

@@ -141,7 +141,6 @@ public class Computer implements Serializable {
 
 	/**
 	 * Check if the computer has a valid name.
-	 * @param computer The computer.
 	 * @return true if a name is set, false in other cases.
 	 */
 	public boolean hasName() {
@@ -152,7 +151,6 @@ public class Computer implements Serializable {
 	
 	/**
 	 * Check if the discontinued date is greater than the introduced one.
-	 * @param computer The computer.
 	 * @return true if at least one of the dates is null or when the discontinuedDate is greater than the introducedDate, false in other cases.
 	 */
 	public boolean hasValidDates() {

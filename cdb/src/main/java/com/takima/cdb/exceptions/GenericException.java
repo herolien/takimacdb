@@ -101,6 +101,8 @@ public abstract class GenericException extends Exception {
 	
 	/**
 	 * Get the exception as Map of String, String.
+	 * @param code Error code.
+	 * @param message Error message.
 	 * @return a map of error code and error message.
 	 */
 	private static Map<String, String> toMap(String code, String message){
@@ -112,6 +114,7 @@ public abstract class GenericException extends Exception {
 	
 	/**
 	 * Build a response.
+	 * @param error .
 	 * @return Response.
 	 */
 	public static Response toResponse(Errors error) {

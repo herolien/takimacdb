@@ -35,7 +35,7 @@ public interface ComputerService {
 	
 	/**
 	 * Update an existing computer.
-	 * @param computer The new computer.
+	 * @param computer The computer to update.
 	 */
 	void updateComputer(Computer computer);
 	

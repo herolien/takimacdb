@@ -37,7 +37,7 @@ public interface CompanyService {
 	
 	/**
 	 * Update an existing Company.
-	 * @param company The new Company.
+	 * @param company The Company to update.
 	 */
 	void updateCompany(Company company);
 	
